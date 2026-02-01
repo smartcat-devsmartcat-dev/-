@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>โครงงานทรายแมวอัจฉริยะ EM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: linear-gradient(135deg, #f1f1f1, #d9d9d9);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: white;
+      width: 95%;
+      max-width: 720px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      padding: 24px;
+      text-align: center;
+      animation: fadeIn 0.6s ease;
+      position: relative;
+    }
+
+    .school-logo {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 70px;
+      background: white;
+      padding: 6px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    h2 {
+      color: #444;
+    }
+
+    p {
+      color: #555;
+      line-height: 1.6;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      color: #444;
+      text-align: left;
+    }
+
+    input {
+      margin-top: 6px;
+      padding: 10px;
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      margin: 12px 0;
+      padding: 14px;
+      font-size: 17px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.25s;
+      background: #333;
+      color: white;
+    }
+
+    .btn:hover {
+      background: #000;
+      transform: scale(1.02);
+    }
+
+    .back {
+      background: #888;
+    }
+
+    .deploy {
+      background: #0d6efd;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .result {
+      margin-top: 15px;
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 12px;
+      color: #333;
+      text-align: left;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      border-bottom: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    img.hero {
+      width: 100%;
+      border-radius: 15px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 20px; }
+      .btn { font-size: 15px; padding: 12px; }
+      .school-logo { width: 55px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="logo.png" class="school-logo" onclick="goHome()" title="กลับหน้าแรก" />
+
+    <!-- หน้าแรก -->
+    <div id="home">
+      <h1>โครงงานทรายแมวอัจฉริยะ EM</h1>
+      <p>ระบบแจ้งเตือน + บันทึกประวัติ + ใช้งานบนมือถือได้</p>
+
+      <img class="hero" src="https://images.unsplash.com/featured/?cat" alt="cat" />
+
+      <button class="btn" onclick="showPage('mix')">1. ทรายแมวผสม EM</button>
+      <button class="btn" onclick="showPage('separate')">2. ทรายแมวแยกหัวเชื้อ EM</button>
+      <button class="btn" onclick="showPage('historyPage')">3. ประวัติการเปลี่ยนทราย</button>
+      <button class="btn" onclick="showPage('advicePage')">4. ข้อแนะนำ</button>
+      <button class="btn" onclick="showPage('emPage')">5. ข้อมูลของ EM</button>
+
+      <button class="btn deploy" onclick="openDeploy()">🌐 Deploy ขึ้น GitHub Pages</button>
+    </div>
+
+    <!-- หัวข้อ 1 -->
+    <div id="mix" class="hidden">
+      <h1>ทรายแมวผสม EM</h1>
+      <p>ระบบจะเตือนเปลี่ยนทรายหลัง 7 วัน</p>
+
+      <label>อีเมลสำหรับรับแจ้งเตือน</label>
+      <input type="email" id="mixEmail" placeholder="example@gmail.com" />
+
+      <label>วันที่ผลิต</label>
+      <input type="date" id="mixDate" />
+
+      <button class="btn" onclick="calculateMix()">บันทึก + แจ้งเตือน</button>
+
+      <div id="mixResult" class="result hidden"></div>
+
+      <button class="btn back" onclick="goHome()">กลับหน้าแรก</button>
+    </div>
+
+    <!-- หัวข้อ 2 -->
+    <div id="separate" class="hidden">
+      <h1>ทรายแมวแยกหัวเชื้อ EM</h1>
+      <p>แจ้งเตือนฉีด EM ใหม่ (7 วัน) และเปลี่ยนทราย (14 วัน)</p>
+
+      <label>อีเมลสำหรับรับแจ้งเตือน</label>
+      <input type="email" id="separateEmail" placeholder="example@gmail.com" />
+
+      <label>วันและเวลาที่ฉีดหัวเชื้อ EM</label>
+      <input type="datetime-local" id="separateDate" />
+
+      <button class="btn" onclick="calculateSeparate()">บันทึก + แจ้งเตือน</button>
+
+      <div id="separateResult" class="result hidden"></div>
+
+      <button class="btn back" onclick="goHome()">กลับหน้าแรก</button>
+    </div>
+
+    <!-- ประวัติ -->
+    <div id="historyPage" class="hidden">
+      <h1>ประวัติการเปลี่ยนทราย</h1>
+      <div class="result">
+        <table id="historyTable">
+          <thead>
+            <tr>
+              <th>ประเภท</th>
+              <th>อีเมล</th>
+              <th>รายละเอียด</th>
+              <th>วันที่บันทึก</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <button class="btn back" onclick="clearHistory()">ล้างประวัติ</button>
+      <button class="btn back" onclick="goHome()">กลับหน้าแรก</button>
+    </div>
+
+    <!-- ข้อแนะนำ -->
+    <div id="advicePage" class="hidden">
+      <h1>ข้อแนะนำการใช้งาน</h1>
+      <div class="result">
+        <p><b>แบบผสม EM:</b> ทรายแมวมีอายุประมาณ 7 วัน หลังจากนั้นควรเปลี่ยนใหม่</p>
+        <p><b>แบบแยกหัวเชื้อ EM:</b> หัวเชื้อ EM ควรฉีดซ้ำทุก 7 วัน และทรายแมวควรเปลี่ยนเมื่อครบ 14 วัน</p>
+        <p>ควรตั้งกล่องทรายไว้ในที่อากาศถ่ายเท และหลีกเลี่ยงแสงแดดโดยตรง</p>
+      </div>
+      <button class="btn back" onclick="goHome()">กลับหน้าแรก</button>
+    </div>
+
+    <!-- ข้อมูล EM -->
+    <div id="emPage" class="hidden">
+      <h1>ข้อมูลของ EM</h1>
+      <img class="hero" src="https://images.unsplash.com/featured/?microbiology" />
+      <div class="result">
+        <p><b>EM (Effective Microorganisms)</b> คือ กลุ่มจุลินทรีย์ที่มีประโยชน์หลายชนิด อยู่ร่วมกันและทำงานเสริมกัน</p>
+        <p>ช่วยย่อยสลายสารอินทรีย์ ลดกลิ่นไม่พึงประสงค์ และช่วยปรับสมดุลสิ่งแวดล้อม</p>
+        <hr>
+        <p><b>โครงงานทรายแมวอัจฉริยะ EM</b></p>
+        <p>เป็นการนำ EM มาประยุกต์ใช้ร่วมกับวัสดุธรรมชาติ (จอกแหน) เพื่อสร้างวัสดุดูดซับกลิ่นและความชื้นจากของเสียของแมว</p>
+        <p>เป็นมิตรต่อสิ่งแวดล้อม และช่วยลดการใช้สารเคมี</p>
+      </div>
+      <button class="btn back" onclick="goHome()">กลับหน้าแรก</button>
+    </div>
+
+  </div>
+
+  <script>
+    function showPage(page) {
+      document.querySelectorAll('.container > div').forEach(div => {
+        if (div.id !== 'home') div.classList.add('hidden');
+      });
+      document.getElementById('home').classList.add('hidden');
+      document.getElementById(page).classList.remove('hidden');
+      if (page === 'historyPage') loadHistory();
+    }
+
+    function goHome() {
+      document.querySelectorAll('.container > div').forEach(div => {
+        if (div.id !== 'home') div.classList.add('hidden');
+      });
+      document.getElementById('home').classList.remove('hidden');
+    }
+
+    function openDeploy() {
+      window.open('https://pages.github.com/', '_blank');
+    }
+
+    function addDays(date, days) {
+      const result = new Date(date);
+      result.setDate(result.getDate() + days);
+      return result;
+    }
+
+    function formatDate(date) {
+      return date.toLocaleString('th-TH');
+    }
+
+    function notifyBrowser(text) {
+      if (!('Notification' in window)) return;
+
+      if (Notification.permission === 'granted') {
+        new Notification('ทรายแมวอัจฉริยะ EM', { body: text });
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission().then(p => {
+          if (p === 'granted') {
+            new Notification('ทรายแมวอัจฉริยะ EM', { body: text });
+          }
+        });
+      }
+    }
+
+    function loadHistory() {
+      const data = JSON.parse(localStorage.getItem('catSandHistory') || '[]');
+      const tableBody = document.querySelector('#historyTable tbody');
+      tableBody.innerHTML = '';
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row.type}</td>
+          <td>${row.email}</td>
+          <td>${row.detail}</td>
+          <td>${row.date}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    function saveHistory(type, email, detail) {
+      const data = JSON.parse(localStorage.getItem('catSandHistory') || '[]');
+      data.push({
+        type: type,
+        email: email,
+        detail: detail,
+        date: new Date().toLocaleString('th-TH')
+      });
+      localStorage.setItem('catSandHistory', JSON.stringify(data));
+    }
+
+    function clearHistory() {
+      if (confirm('ต้องการล้างประวัติทั้งหมดหรือไม่?')) {
+        localStorage.removeItem('catSandHistory');
+        loadHistory();
+      }
+    }
+
+    function calculateMix() {
+      const email = document.getElementById('mixEmail').value;
+      const dateInput = document.getElementById('mixDate').value;
+
+      if (!email || !dateInput) {
+        alert('กรุณากรอกข้อมูลให้ครบ');
+        return;
+      }
+
+      const baseDate = new Date(dateInput);
+      const notifyDate = addDays(baseDate, 7);
+
+      const message = `ถึงเวลาควรเปลี่ยนทรายแมวแล้ว: ${formatDate(notifyDate)}`;
+
+      notifyBrowser(message);
+      sendEmail(message, email);
+      saveHistory('ทรายแมวผสม EM', email, message);
+
+      const resultDiv = document.getElementById('mixResult');
+      resultDiv.classList.remove('hidden');
+      resultDiv.innerHTML = `<p><b>วันแจ้งเตือน:</b> ${formatDate(notifyDate)}</p>`;
+    }
+
+    function calculateSeparate() {
+      const email = document.getElementById('separateEmail').value;
+      const dateInput = document.getElementById('separateDate').value;
+
+      if (!email || !dateInput) {
+        alert('กรุณากรอกข้อมูลให้ครบ');
+        return;
+      }
+
+      const baseDate = new Date(dateInput);
+      const emDate = addDays(baseDate, 7);
+      const changeDate = addDays(baseDate, 14);
+
+      const message = `ฉีด EM ใหม่: ${formatDate(emDate)} | เปลี่ยนทราย: ${formatDate(changeDate)}`;
+
+      notifyBrowser(message);
+      sendEmail(message, email);
+      saveHistory('ทรายแมวแยกหัวเชื้อ EM', email, message);
+
+      const resultDiv = document.getElementById('separateResult');
+      resultDiv.classList.remove('hidden');
+      resultDiv.innerHTML = `
+        <p><b>ฉีด EM ใหม่:</b> ${formatDate(emDate)}</p>
+        <p><b>เปลี่ยนทราย:</b> ${formatDate(changeDate)}</p>
+      `;
+    }
+  </script>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init('e1fq8yHoljMDtV890');
+    })();
+
+    function sendEmail(message, email) {
+      emailjs.send('service_arqhvpj', 'template_4c0qgdx', {
+        message: message,
+        to_email: email
+      }).then(() => {
+        console.log('ส่งอีเมลแล้ว');
+      });
+    }
+  </script>
+</body>
+</html>
